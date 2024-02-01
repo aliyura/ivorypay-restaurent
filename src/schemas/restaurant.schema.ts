@@ -4,28 +4,29 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  Index,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity({ name: 'restaurents' })
-export class Restaurent {
+@Entity({ name: 'restaurants' })
+export class Restaurant {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Index({ fulltext: true })
   @Column()
   name: string;
 
-  @Index({ fulltext: true })
+  @Column()
   address: string;
 
   @Column()
-  latitude: number;
+  city: string;
 
   @Column()
-  longitude: number;
+  latitude: string;
+
+  @Column()
+  longitude: string;
 
   @CreateDateColumn()
   createdAt: Date;

@@ -23,7 +23,7 @@ async function bootstrap() {
   });
 
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  app.setGlobalPrefix('v1');
+  app.setGlobalPrefix('api/v1');
   app.useGlobalFilters(new AllExceptionsFilter());
   app.useGlobalPipes(
     new ValidationPipe({

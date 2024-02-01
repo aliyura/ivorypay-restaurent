@@ -3,10 +3,10 @@ import { UserService } from '../user/user.service';
 import { User } from '../../schemas/user.schema';
 import { JwtService } from '@nestjs/jwt';
 import { UserAuthDto } from '../../dtos/user.dto';
-import { Helpers } from '../../helpers/utitlity.helpers';
 import { Status } from 'src/enums';
 import { Messages } from 'src/utils/messages/messages';
 import { ApiResponse } from 'src/dtos/ApiResponse.dto';
+import { Response } from 'src/helpers/responseHandler.helpers copy';
 
 @Injectable()
 export class AuthService {
@@ -22,15 +22,15 @@ export class AuthService {
         const user = res.payload as User;
 
         if (user.status == Status.ACTIVE) {
-          return Helpers.success(user);
+          return Response.success(user);
         } else {
-          return Helpers.failure('Account is InActive');
+          return Response.failure('Account is InActive');
         }
       }
-      return Helpers.failure(Messages.InvalidCredentials);
+      return Response.failure(Messages.InvalidCredentials);
     } catch (ex) {
       console.log(Messages.Exception, ex);
-      return Helpers.failure(Messages.Exception);
+      return Response.failure(Messages.Exception);
     }
   }
   async login(authRequest: UserAuthDto): Promise<ApiResponse> {
@@ -45,14 +45,13 @@ export class AuthService {
           access_token: this.jwtService.sign(payload),
           info: user,
         };
-        const result = Helpers.success(token);
-        return result;
+        return Response.success(token);
       } else {
-        return Helpers.failure(res.message);
+        return Response.failure(res.message);
       }
     } catch (ex) {
       console.log(Messages.Exception, ex);
-      return Helpers.failure(Messages.Exception);
+      return Response.failure(Messages.Exception);
     }
   }
 }

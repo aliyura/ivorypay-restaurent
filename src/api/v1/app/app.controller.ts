@@ -1,6 +1,6 @@
 import { Controller, Get, HttpStatus, Redirect } from '@nestjs/common';
 import { ApiResponse } from 'src/dtos/ApiResponse.dto';
-import { Helpers } from '../../../helpers/utitlity.helpers';
+import { Response } from 'src/helpers';
 
 @Controller()
 export class AppController {
@@ -11,9 +11,9 @@ export class AppController {
 
   @Get('/ping')
   async ping(): Promise<ApiResponse> {
-    return Helpers.response(
+    return Response.send(
       HttpStatus.OK,
-      'Ivorypay restaurent service is up and running...',
+      'Ivorypay restaurant service is up and running...',
     );
   }
 }

@@ -1,7 +1,4 @@
-import { HttpException, HttpStatus } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
-import { ApiResponse } from '../dtos/ApiResponse.dto';
-import { Messages } from '../utils/messages/messages';
 
 export type HttpClient = (
   path: string,
@@ -10,51 +7,6 @@ export type HttpClient = (
 ) => Promise<unknown>;
 
 export class Helpers {
-  /**
-   * Sends default JSON resonse to client
-   * @param {*} res
-   * @param {*} content
-   * @param {*} message
-   */
-
-  /**
-   * Sends error resonse to client
-   * @param {*} content
-   * @param {*} message
-   * @param {*} status
-   */
-  static response(
-    status: HttpStatus,
-    message: string,
-    payload: any = null,
-  ): ApiResponse {
-    const data = {
-      success: status == HttpStatus.CREATED || HttpStatus.OK ? true : false,
-      message,
-      payload,
-    } as ApiResponse;
-
-    if (!payload) delete data.payload;
-    throw new HttpException(data, status);
-  }
-
-  static success(content: any): ApiResponse {
-    const data = {
-      success: true,
-      message: Messages.RequestSuccessful,
-      payload: content,
-    } as ApiResponse;
-    return data;
-  }
-
-  static failure(message): ApiResponse {
-    const data = {
-      success: false,
-      message,
-    } as ApiResponse;
-    return data;
-  }
-
   static getUniqueId(): Promise<string> {
     const id = uuidv4();
     const uid = id.split('-').join('');
@@ -67,5 +19,19 @@ export class Helpers {
     if (result) return true;
 
     return false;
+  }
+
+  static validateCordinates(lat, lon): boolean {
+    const regexLat = /^(-?[1-8]?\d(?:\.\d{1,18})?|90(?:\.0{1,18})?)$/;
+    const regexLon =
+      /^(-?(?:1[0-7]|[1-9])?\d(?:\.\d{1,18})?|180(?:\.0{1,18})?)$/;
+
+    const validLat = regexLat.test(lat);
+    const validLon = regexLon.test(lon);
+    return validLat && validLon;
+  }
+
+  static toRad(value): number {
+    return (value * Math.PI) / 180;
   }
 }

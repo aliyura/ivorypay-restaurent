@@ -1,8 +1,8 @@
 import { Body, Controller, HttpStatus, Post } from '@nestjs/common';
 import { UserDto } from 'src/dtos';
-import { Helpers } from 'src/helpers';
 import { UserService } from 'src/services/user/user.service';
 import { ApiResponse } from '../../../dtos/ApiResponse.dto';
+import { Response } from 'src/helpers';
 
 @Controller('user')
 export class UserController {
@@ -10,10 +10,10 @@ export class UserController {
 
   @Post('/')
   async createUser(@Body() requestDto: UserDto): Promise<ApiResponse> {
-    const response = await this.userService.createUser(requestDto);
-    if (response.success) {
-      return response;
+    const result = await this.userService.createUser(requestDto);
+    if (result.success) {
+      return result;
     }
-    return Helpers.response(HttpStatus.BAD_REQUEST, response.message);
+    return Response.send(HttpStatus.BAD_REQUEST, result.message);
   }
 }

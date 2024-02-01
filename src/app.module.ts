@@ -9,8 +9,11 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthStrategy } from './services/auth/auth.strategy';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CryptoService } from './services/crypto/crypto.service';
-import { Restaurent } from './schemas/restaurent.schema';
-import { RestaurentController } from './api/v1/restaurent/restaurent.controller';
+import { Restaurant } from './schemas/restaurant.schema';
+import { RestaurantController } from './api/v1/restaurent/restaurant.controller';
+import { RestaurantService } from './services/restaurent/restaurant.service';
+import { GeoService } from './services/geo/geo.service';
+import { HttpModule } from '@nestjs/axios';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -24,7 +27,7 @@ import { RestaurentController } from './api/v1/restaurent/restaurent.controller'
       synchronize: true,
       // logging: true,
     }),
-    TypeOrmModule.forFeature([User, Restaurent]),
+    TypeOrmModule.forFeature([User, Restaurant]),
     JwtModule.register({
       secret: process.env.APP_SECRET,
       signOptions: { expiresIn: '10000s' },
@@ -35,8 +38,16 @@ import { RestaurentController } from './api/v1/restaurent/restaurent.controller'
       signOptions: { expiresIn: '10000s' },
     }),
     PassportModule,
+    HttpModule,
   ],
-  controllers: [AuthController, UserController, RestaurentController],
-  providers: [UserService, AuthService, CryptoService, AuthStrategy],
+  controllers: [UserController, AuthController, RestaurantController],
+  providers: [
+    UserService,
+    AuthService,
+    RestaurantService,
+    CryptoService,
+    GeoService,
+    AuthStrategy,
+  ],
 })
 export class AppModule {}

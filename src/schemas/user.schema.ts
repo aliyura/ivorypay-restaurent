@@ -14,12 +14,11 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Index({ fulltext: true })
+  @Index()
   @Column()
   name: string;
 
-  @Index({ fulltext: true })
-  @Column({ nullable: true })
+  @Column({ unique: true })
   email: string;
 
   @Column()
@@ -28,7 +27,7 @@ export class User {
   @Column()
   status: string;
 
-  @Column()
+  @Column({ unique: true })
   uuid: string;
 
   @Column()
