@@ -2,12 +2,10 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 import { ApiResponse } from '../dtos/ApiResponse.dto';
 import { Messages } from '../utils/messages/messages';
 
-export type HttpClient = (
-  path: string,
-  queryParam: { [key: string]: string | number | boolean },
-  headers: { [key: string]: string | number | boolean },
-) => Promise<unknown>;
-
+/*
+   This is to centralize responses sends back to frontend, this can enable the service trace each response sends to the frontend
+   if there is a need in the future
+*/
 export class Response {
   static send(
     status: HttpStatus,

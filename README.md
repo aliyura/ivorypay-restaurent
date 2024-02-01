@@ -32,6 +32,29 @@
 $ npm install
 ```
 
+
+## Setup Environment Variables
+
+- Create .env file in the root of the project
+- Copy and Paste below values in the .env file
+- Create a mysql database with name ivorypaydb
+- Change database username and password below if needed
+
+```bash
+NODE_ENV=dev
+APP_NAME=Ivorypay
+PORT=8081
+DB_PORT=3306
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=
+DB_NAME=ivorypaydb
+APP_SECRET=630252351dedba60a7d469ae
+ENCRYPTION_ALGORITHM= 'aes-256-ctr'
+ENCRYPTION_SECRETKEY= 'encopipUcdnx2QhJ1wqcRK1wl3iUdkG3'
+GEO_APIKEY=fa5d1e1da9a1494e8104d5d8bcdbca4d
+```
+
 ## Running the app
 
 ```bash

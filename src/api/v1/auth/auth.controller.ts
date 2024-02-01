@@ -13,7 +13,6 @@ export class AuthController {
     @Body() requestDto: UserAuthDto,
   ): Promise<ApiResponse> {
     const result = await this.authService.login(requestDto);
-    console.log(result);
     if (result.success && result.payload) {
       return Response.send(HttpStatus.OK, result.message, result.payload);
     }

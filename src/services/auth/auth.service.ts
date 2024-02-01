@@ -7,12 +7,14 @@ import { Status } from 'src/enums';
 import { Messages } from 'src/utils/messages/messages';
 import { ApiResponse } from 'src/dtos/ApiResponse.dto';
 import { Response } from 'src/helpers/responseHandler.helpers copy';
+import { CryptoService } from '../crypto/crypto.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UserService,
     private jwtService: JwtService,
+    private encryptionService: CryptoService,
   ) {}
 
   async validateUser(authRequest: UserAuthDto): Promise<ApiResponse> {
@@ -37,10 +39,16 @@ export class AuthService {
     try {
       const res = await this.validateUser(authRequest);
       if (res.success) {
-        const user = res.payload as User;
+        const user = res.payload;
         const payload = { username: user.email, sub: user.uuid };
-        delete user.password;
 
+        const valid = await this.encryptionService.compare(
+          user.password,
+          authRequest.password,
+        );
+        if (!valid) return Response.failure(Messages.InvalidCredentials);
+
+        delete user.password;
         const token = {
           access_token: this.jwtService.sign(payload),
           info: user,

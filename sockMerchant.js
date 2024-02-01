@@ -1,5 +1,5 @@
 const sockMerchant = (n, arr) => {
-  const list = new Set(); 
+  const list = new Set();
   let count = 0;
   for (let i = 0; i < n; i++) {
     if (list.has(arr[i])) {
